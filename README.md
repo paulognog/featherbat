@@ -16,16 +16,15 @@ Monitor ultraleve de bateria para dispositivos sem fio na barra de tarefas do Wi
     - **DualSense / DualSense Edge / DualShock 4:** lê 1 relatório a cada 60 s apenas quando conectado (evita acordar 250×/s).
     - **Xbox (XInput):** 60 s apenas quando conectado.
     - **Bluetooth clássico** via `CfgMgr32`/`SetupAPI` (5 min), **HID genérico** (`0x06:0x20` / `0x85:0x65`) e ponte opcional para **HeadsetControl** (`headsetcontrol.exe` no mesmo diretório ou no `PATH`).
-- **Interface nativa:** ícones `Segoe Fluent Icons`, tema claro/escuro, DPI dinâmico, realce no hover, tooltip com nome/status completo, menu de clique direito (**Atualizar agora** e **Fechar**) e alerta de bateria baixa (`≤ 15%`, rearmado acima de `20%` ou ao carregar).
+- **Interface nativa:** ícones `Segoe Fluent Icons`, tema claro/escuro, DPI dinâmico, realce no hover, tooltip com nome/status completo, menu de clique direito (**Atualizar agora**, **Iniciar com o Windows** e **Fechar**) e alerta de bateria baixa (`≤ 15%`, rearmado acima de `20%` ou ao carregar).
 
 ## Instalação e uso
 
 1. Baixe `featherbat.exe` (ou `featherbat-portable.zip`) na página de [Releases](../../releases/latest).
-2. Mova para uma pasta fixa, por exemplo:
-   ```
-   %LOCALAPPDATA%\Programs\featherbat\
-   ```
-3. Dê dois cliques em `featherbat.exe`. Ele aparece na barra de tarefas e registra a inicialização automática com o Windows para esse caminho.
+2. Dê dois cliques em `featherbat.exe`.
+   - Ele se copia automaticamente para `%LOCALAPPDATA%\Programs\featherbat\featherbat.exe`, configura a inicialização com o Windows e passa a rodar de lá — você pode até apagar o arquivo baixado em *Downloads* depois!
+   - Para atualizar no futuro, basta baixar a nova versão e dar dois cliques nela.
+   - Para ligar ou desligar a inicialização automática a qualquer momento, clique com o botão direito no widget → **Iniciar com o Windows**.
 
 > **Aviso do Windows SmartScreen?** Como o executável não possui assinatura digital paga, na primeira abertura o Windows pode exibir *"O Windows protegeu o computador"*. Clique em **Mais informações → Executar assim mesmo**, ou compile do código-fonte abaixo.
 

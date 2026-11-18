@@ -2,14 +2,16 @@
 #include "render.h"
 #include "alert.h"
 #include "io.h"
+#include "settings.h"
 #include <commctrl.h>
 #include <dbt.h>
 
 #define TIMER_RETRY_BAR 1
 #define PBT_APMRESUMEAUTOMATIC_VAL 0x12
 #define WM_APP_MENU (WM_APP + 2)
-#define CMD_REFRESH 101
-#define CMD_EXIT    102
+#define CMD_REFRESH   101
+#define CMD_AUTOSTART 102
+#define CMD_EXIT      103
 
 static HINSTANCE g_inst = NULL;
 static HWND g_ctrl = NULL;
@@ -315,6 +317,9 @@ static void show_context_menu(HWND hwnd) {
     }
     AppendMenuW(menu, MF_SEPARATOR, 0, NULL);
     AppendMenuW(menu, MF_STRING, CMD_REFRESH, pt ? L"Atualizar agora" : L"Refresh now");
+    AppendMenuW(menu, MF_STRING | (settings_autostart_enabled() ? MF_CHECKED : MF_UNCHECKED),
+                CMD_AUTOSTART, pt ? L"Iniciar com o Windows" : L"Start with Windows");
+    AppendMenuW(menu, MF_SEPARATOR, 0, NULL);
     AppendMenuW(menu, MF_STRING, CMD_EXIT, pt ? L"Fechar" : L"Exit");
 
     POINT pt_cur;
@@ -328,6 +333,8 @@ static void show_context_menu(HWND hwnd) {
 
     if (cmd == CMD_REFRESH) {
         io_refresh_now();
+    } else if (cmd == CMD_AUTOSTART) {
+        settings_set_autostart(!settings_autostart_enabled());
     } else if (cmd == CMD_EXIT) {
         DestroyWindow(hwnd);
     }
