@@ -1,0 +1,9 @@
+ref/
+build/
+dist/
+*.o
+*.res
+*.exe
+*.zip
+dump.txt
+
