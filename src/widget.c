@@ -7,6 +7,8 @@
 #include <dbt.h>
 
 #define TIMER_RETRY_BAR 1
+// id 2 is TIMER_BALLOON_CLEANUP in alert.c
+#define TIMER_SETTLE    3
 #define PBT_APMRESUMEAUTOMATIC_VAL 0x12
 #define WM_APP_MENU (WM_APP + 2)
 #define CMD_REFRESH   101
@@ -32,6 +34,7 @@ static RECT g_last_bar = { 0 };
 static RECT g_last_tray = { 0 };
 static int  g_last_x = -1;
 static int  g_last_w = -1;
+static int  g_settle_ticks = 0;
 
 static Device g_devs[MAX_DEVICES];
 static int    g_dev_count = 0;
@@ -229,7 +232,9 @@ static void ensure_widget(void) {
 
     HWND bar = FindWindowW(L"Shell_TrayWnd", NULL);
     HWND tray = bar ? FindWindowExW(bar, NULL, L"TrayNotifyWnd", NULL) : NULL;
-    if (!bar || !tray) {
+    RECT br = { 0 }, tr = { 0 };
+    if (!bar || !tray || !GetWindowRect(bar, &br) || !GetWindowRect(tray, &tr) ||
+        br.bottom <= br.top || tr.right <= tr.left) {
         // Explorer not ready yet; retry briefly until it appears, then stop timer.
         SetTimer(g_ctrl, TIMER_RETRY_BAR, 500, NULL);
         return;
@@ -273,6 +278,8 @@ static void ensure_widget(void) {
 
     hook_taskbar_events();
     redraw();
+    g_settle_ticks = 3;
+    SetTimer(g_ctrl, TIMER_SETTLE, 2500, NULL);
 }
 
 static void apply_menu_theme(bool light) {
@@ -379,6 +386,7 @@ static LRESULT CALLBACK widget_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 
 static LRESULT CALLBACK ctrl_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
     if (msg == g_taskbar_created_msg && msg != 0) {
+        destroy_widget();
         ensure_widget();
         return 0;
     }
@@ -395,6 +403,14 @@ static LRESULT CALLBACK ctrl_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
                 ensure_widget();
             } else if (wp == 2) {
                 alert_cleanup(hwnd);
+            } else if (wp == TIMER_SETTLE) {
+                if (g_settle_ticks > 0) {
+                    g_settle_ticks--;
+                    place_widget();
+                }
+                if (g_settle_ticks <= 0) {
+                    KillTimer(hwnd, TIMER_SETTLE);
+                }
             }
             return 0;
 
@@ -440,6 +456,7 @@ static LRESULT CALLBACK ctrl_proc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
         case WM_DESTROY:
             g_quitting = true;
             KillTimer(hwnd, TIMER_RETRY_BAR);
+            KillTimer(hwnd, TIMER_SETTLE);
             alert_cleanup(hwnd);
             destroy_widget();
             io_stop();

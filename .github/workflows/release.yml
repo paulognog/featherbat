@@ -43,11 +43,6 @@ jobs:
           Copy-Item featherbat.exe dist/featherbat.exe
           Compress-Archive -Path `
             featherbat.exe, `
-            testar-deteccao.bat, `
-            testar-widget.bat, `
-            parar-widget.bat, `
-            gerar-dump.bat, `
-            desinstalar.bat, `
             README.md, `
             LICENSE `
             -DestinationPath dist/featherbat-portable.zip -Force

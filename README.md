@@ -28,13 +28,13 @@ Monitor ultraleve de bateria para dispositivos sem fio na barra de tarefas do Wi
 
 > **Aviso do Windows SmartScreen?** Como o executável não possui assinatura digital paga, na primeira abertura o Windows pode exibir *"O Windows protegeu o computador"*. Clique em **Mais informações → Executar assim mesmo**, ou compile do código-fonte abaixo.
 
-### Atalhos incluídos (ou flags de linha de comando)
+### Linha de comando (opcional)
 
-- `testar-widget.bat` (`featherbat.exe --no-autostart`) — testa na barra de tarefas sem registrar no autostart.
-- `testar-deteccao.bat` (`featherbat.exe --once`) — lista os dispositivos detectados no terminal e sai.
-- `gerar-dump.bat` (`featherbat.exe --dump`) — salva `dump.txt` com coleções HID, nós Bluetooth e frames Xenta para adicionar novos dispositivos.
-- `parar-widget.bat` (`featherbat.exe --quit`) — encerra a instância em execução (ou clique com o botão direito no widget → **Fechar**).
-- `desinstalar.bat` (`featherbat.exe --uninstall`) — encerra, remove do autostart e apaga `HKCU\Software\featherbat`.
+- `featherbat.exe --no-autostart` — executa sem instalar nem registrar no início do Windows.
+- `featherbat.exe --once` — lista os dispositivos detectados no terminal e sai.
+- `featherbat.exe --dump` — exibe coleções HID, nós Bluetooth e frames Xenta para adicionar novos dispositivos.
+- `featherbat.exe --quit` — encerra a instância em execução (também disponível via clique direito no widget → **Fechar**).
+- `featherbat.exe --uninstall` — encerra, remove do início do Windows, limpa o registro e apaga a pasta instalada.
 
 ## Compilação (MSYS2 UCRT64)
 
