@@ -20,7 +20,7 @@ Monitor ultraleve de bateria para dispositivos sem fio na barra de tarefas do Wi
 
 ## Instalação e uso
 
-1. Baixe `featherbat.exe` (ou `featherbat-portable.zip`) na página de [Releases](../../releases/latest).
+1. Baixe `featherbat.exe` na página de [Releases](../../releases/latest) — é um executável único, então você também pode enviar apenas esse `.exe` para amigos.
 2. Dê dois cliques em `featherbat.exe`.
    - Ele se copia automaticamente para `%LOCALAPPDATA%\Programs\featherbat\featherbat.exe`, configura a inicialização com o Windows e passa a rodar de lá — você pode até apagar o arquivo baixado em *Downloads* depois!
    - Para atualizar no futuro, basta baixar a nova versão e dar dois cliques nela.
